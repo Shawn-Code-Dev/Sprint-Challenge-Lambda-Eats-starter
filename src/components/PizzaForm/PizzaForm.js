@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import * as yup from "yup";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -7,26 +7,41 @@ const formSchema = yup.object().shape({
     name: yup.string().required("Name is a required field."), 
     pizzaSize: yup.string(),
     pizzaSauce: yup.string(),
-    toppings: yup.string(),
+    pepperoni: yup.boolean(),
+    sausage: yup.boolean(),
+    onions: yup.boolean(),
+    mushrooms: yup.boolean(),
+    pineapple: yup.boolean(),
+    chicken: yup.boolean(),
     specialInstructions: yup.string()
 });
 
 const PizzaForm = () => {
-    const [buttonDisabled, setButtonDisabled] = useState(true);
+    // const [buttonDisabled, setButtonDisabled] = useState(true);
 
     const [formState, setFormState] = useState({
         name: "",
         pizzaSize: "Personal",
         pizzaSauce: "Original",
-        toppings: [],
+        pepperoni: "",
+        sausage: "",
+        onions: "",
+        mushrooms: "",
+        pineapple: "",
+        chicken: "",
         specialInstructions: ""
     });
 
     const [errors, setErrors] = useState({
         name: "",
-        pizzaSize: "",
-        pizzaSauce: "",
-        toppings: [],
+        pizzaSize: "Personal",
+        pizzaSauce: "Original",
+        pepperoni: "",
+        sausage: "",
+        onions: "",
+        mushrooms: "",
+        pineapple: "",
+        chicken: "",
         specialInstructions: ""
     });
 
@@ -72,7 +87,12 @@ const PizzaForm = () => {
                 name: "",
                 pizzaSize: "",
                 pizzaSauce: "",
-                toppings: [],
+                pepperoni: "",
+                sausage: "",
+                onions: "",
+                mushrooms: "",
+                pineapple: "",
+                chicken: "",
                 specialInstructions: ""
             });
           })
@@ -80,11 +100,11 @@ const PizzaForm = () => {
       };
     
 
-    useEffect(() => {
-        formSchema.isValid(formState).then(valid => {
-          setButtonDisabled(!valid);
-        });
-      }, [formState]);
+    // useEffect(() => {
+    //     formSchema.isValid(formState).then(valid => {
+    //     //   setButtonDisabled(!valid);
+    //     });
+    //   }, [formState]);
 
     return (
         <>
@@ -132,12 +152,12 @@ const PizzaForm = () => {
                     <p>Check the toppings you'd like to add to your pizza</p>
 
                     <div>
-                        <label><input type="checkbox" name="toppings[]" value="pepperoni" /> pepperoni</label>
-                        <label><input type="checkbox" name="toppings[]" value="sausage" /> sausage</label>
-                        <label><input type="checkbox" name="toppings[]" value="onions" /> onions</label>
-                        <label><input type="checkbox" name="toppings[]" value="mushrooms" /> mushrooms</label>
-                        <label><input type="checkbox" name="toppings[]" value="pineapple" /> pineapple</label>
-                        <label><input type="checkbox" name="toppings[]" value="chicken" /> chicken</label>
+                        <label><input type="checkbox" name="pepperoni" checked={formState.pepperoni} onChange={inputChange}/> pepperoni</label>
+                        <label><input type="checkbox" name="sausage" checked={formState.sausage} onChange={inputChange} /> sausage</label>
+                        <label><input type="checkbox" name="onions" checked={formState.onions} onChange={inputChange} /> onions</label>
+                        <label><input type="checkbox" name="mushrooms" checked={formState.mushrooms} onChange={inputChange} /> mushrooms</label>
+                        <label><input type="checkbox" name="pineapple" checked={formState.pineapple} onChange={inputChange} /> pineapple</label>
+                        <label><input type="checkbox" name="chicken" checked={formState.chicken} onChange={inputChange} /> chicken</label>
                     </div>
                 </fieldset>
                 <br/>
@@ -152,7 +172,7 @@ const PizzaForm = () => {
                 </label>
                 <br/>
                 <pre>{JSON.stringify(post, null, 2)}</pre>
-                <button disabled={buttonDisabled}>Submit your Order</button>
+                <button type="submit">Submit your Order</button>
             </form>
         </>
     )
