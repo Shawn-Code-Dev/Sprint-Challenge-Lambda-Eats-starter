@@ -5,6 +5,8 @@ import axios from 'axios';
 const formSchema = yup.object().shape({
     name: yup.string().required("Name is a required field."), 
     pizzaSize: yup.string(),
+    pizzaSauce: yup.string(),
+    toppings: yup.string(),
     specialInstructions: yup.string()
 });
 
@@ -57,6 +59,28 @@ const PizzaForm = () => {
         setFormState(newFormData);
     };
     
+    const [post, setPost] = useState([]);
+
+    const formSubmit = e => {
+        e.preventDefault();
+        axios
+          .post("https://reqres.in/api/users", formState)
+          .then(res => {
+            setPost(res.data); // get just the form data from the REST api
+    
+            // reset form if successful
+            setFormState({
+                name: "",
+                pizzaSize: "",
+                pizzaSauce: "",
+                toppings: [],
+                specialInstructions: ""
+            });
+          })
+          .catch(err => console.log(err.response));
+      };
+    
+
     useEffect(() => {
         formSchema.isValid(formState).then(valid => {
           setButtonDisabled(!valid);
@@ -66,7 +90,7 @@ const PizzaForm = () => {
     return (
         <>
             <h1>Build Your Own Pizza</h1>
-            <form action="#" method="post" id="pizzaForm">
+            <form action="#" method="post" id="pizzaForm" onSubmit={formSubmit}>
                 <label htmlFor="name">
                     Name 
                     <br/>
@@ -81,7 +105,7 @@ const PizzaForm = () => {
                 <label htmlFor="pizzaSize">
                     What pizza size?
                     <br/>
-                    <select id="pizzaSize" name="pizzaSize">
+                    <select id="pizzaSize" name="pizzaSize" onChange={inputChange}>
                         <option value="Personal">Personal</option>
                         <option value="Small">Small</option>
                         <option value="Medium">Medium</option>
@@ -92,7 +116,7 @@ const PizzaForm = () => {
                 <label htmlFor="pizzaSauce">
                     What pizza sauce?
                     <br/>
-                    <select id="pizzaSauce" name="pizzaSauce">
+                    <select id="pizzaSauce" name="pizzaSauce" onChange={inputChange}>
                         <option value="Original">Original</option>
                         <option value="Ranch">Ranch</option>
                         <option value="BBQ">BBQ</option>
@@ -124,6 +148,7 @@ const PizzaForm = () => {
                     />
                 </label>
                 <br/>
+                <pre>{JSON.stringify(post, null, 2)}</pre>
                 <button>Submit your Order</button>
             </form>
         </>
