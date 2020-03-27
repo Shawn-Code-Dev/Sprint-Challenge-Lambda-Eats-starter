@@ -15,8 +15,8 @@ const PizzaForm = () => {
 
     const [formState, setFormState] = useState({
         name: "",
-        pizzaSize: "",
-        pizzaSauce: "",
+        pizzaSize: "Personal",
+        pizzaSauce: "Original",
         toppings: [],
         specialInstructions: ""
     });
@@ -66,9 +66,7 @@ const PizzaForm = () => {
         axios
           .post("https://reqres.in/api/users", formState)
           .then(res => {
-            setPost(res.data); // get just the form data from the REST api
-    
-            // reset form if successful
+            setPost(res.data);
             setFormState({
                 name: "",
                 pizzaSize: "",
@@ -149,7 +147,7 @@ const PizzaForm = () => {
                 </label>
                 <br/>
                 <pre>{JSON.stringify(post, null, 2)}</pre>
-                <button>Submit your Order</button>
+                <button disabled={buttonDisabled}>Submit your Order</button>
             </form>
         </>
     )
