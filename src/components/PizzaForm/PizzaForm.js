@@ -95,6 +95,7 @@ const PizzaForm = () => {
                     <input
                         type="text"
                         name="name"
+                        minLength='2'
                         value={formState.name}
                         onChange={inputChange}
                     />
