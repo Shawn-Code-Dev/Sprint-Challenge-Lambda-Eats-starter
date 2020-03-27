@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import * as yup from "yup";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const formSchema = yup.object().shape({
     name: yup.string().required("Name is a required field."), 
@@ -88,6 +89,9 @@ const PizzaForm = () => {
     return (
         <>
             <h1>Build Your Own Pizza</h1>
+            <Link to={'./'}><button>Back Home</button></Link>
+            <br/>
+            <br/>
             <form action="#" method="post" id="pizzaForm" onSubmit={formSubmit}>
                 <label htmlFor="name">
                     Name 

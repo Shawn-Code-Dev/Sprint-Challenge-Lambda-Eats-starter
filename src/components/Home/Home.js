@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-    useParams,
-    Route,
     Link,
   } from "react-router-dom";
 
